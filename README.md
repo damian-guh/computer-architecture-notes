@@ -60,3 +60,59 @@ Rozwiązaniem jest rysowanie więcej obszarów w k mapach.
 ## Zatrzask D i przerzutnik D
 
 Główna różnica między zatrzaskiem D a przerzutnikiem D polega na sposobie działania i synchronizacji. Zatrzask D jest asynchroniczny i reaguje na zmiany wejścia bezpośrednio (przesyła na wyjście gdy CLK = 1	a gdy CLK = 0 pozostaje ten sam stan), podczas gdy przerzutnik D jest synchroniczny i reaguje na zmiany wejścia tylko w określonym momencie, synchronizowanym przez zegar (gdy jego wartośc wzrasta z 0 do 1, dla pozostałych sytuacji przechowuje poprzednią wartość Q). Przerzutnik D jest bardziej powszechnie stosowany w układach cyfrowych, ponieważ jego synchroniczność pomaga w unikaniu błędów i zagwarantowaniu prawidłowego działania.
+
+## Zatrzask SR
+
+| S | R | Q | Q' |
+|:-:|:-:|:-:|:-:|
+| 0 | 0 | Qprev | Q'prev |
+| 0 | 1 | 0 | 1 |
+| 1 | 0 | 1 | 0 |
+| 1 | 1 | 0 | 0 |
+
+## Pół sumator i pełny sumator
+Półsumator - ma dwa wejścia i wyjścia. Zmiennymi wyjściowymi są bity składników dodawania, które są sumowane, a zmienne wyjściowe tworzą bity sumy i przeniesienia.
+| A | B | Cout | S |
+|:-:|:-:|:-:|:-:|
+| 0 | 0 | 0 | 0 |
+| 0 | 1 | 0 | 1 |
+| 1 | 0 | 0 | 1 |
+| 1 | 1 | 1 | 0 |
+
+Pełny sumator - realizuje sumę trzech bitów (dwa bity znaczące i bit przeniesienia z poprzedniej pozycji).
+Sumator posiada dwa wejścia A i B oraz Cin, który jest bitem przeniesienia z poprzedniej pozycji. Na wyjściu S otrzymujemy sumę, a Cout to przeniesienie do następnej pozycji
+| Cin | A | B | Cout | S |
+|:-:|:-:|:-:|:-:|:-:|
+| 0 | 0 | 0 | 0 | 0 |
+| 0 | 0 | 1 | 0 | 1 |
+| 0 | 1 | 0 | 0 | 1 |
+| 0 | 1 | 1 | 1 | 0 |
+| 1 | 0 | 0 | 0 | 1 |
+| 1 | 0 | 1 | 1 | 0 |
+| 1 | 1 | 0 | 1 | 0 |
+| 1 | 1 | 1 | 1 | 1 |
+
+## Rodzaje sumatorów
+- Szeregowy - podczas każdej operacji dodają one dwa bity składników oraz bit przeniesienia
+	Zalety: sumowanie liczb n-bitowych, gromadzenie wyników
+	 Wady: wolne
+- Równoległy - dodaje do siebie jednocześnie wszystkie bity ze wszystkich pozycji, a przeniesienie jest realizowane od w zależności od połączenia sumatorów jednobitowych
+	Zalety: prosty, łatwa budowa
+	Wady: sumowanie liczb k *4 bitowych
+- Prefiksowy
+Zalety: szybki, najkrótszy czas
+
+## ALU
+Alu - jednostka arytmetyczno-logiczna, która jest kluczowym elementem procesora
+Realizuje:
+- dodawanie i odejmowanie
+- mnożenie i dzielenie
+- operacje logiczne
+- przesunięcia bitowe
+- porównywanie i testowanie warunków
+
+Elementy jednostki to:
+- rejestry wejściowe i wynikowe
+-  wybór operacji
+- blok logiczny i arytmetyczny
+- sygnały kontrolne
