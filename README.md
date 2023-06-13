@@ -68,7 +68,7 @@ Główna różnica między zatrzaskiem D a przerzutnikiem D polega na sposobie d
 | 0 | 0 | Qprev | Q'prev |
 | 0 | 1 | 0 | 1 |
 | 1 | 0 | 1 | 0 |
-| 1 | 1 | 0 | 0 |
+| 1 | 1 | -| - |
 
 ## Pół sumator i pełny sumator
 Półsumator - ma dwa wejścia i wyjścia. Zmiennymi wyjściowymi są bity składników dodawania, które są sumowane, a zmienne wyjściowe tworzą bity sumy i przeniesienia.
@@ -116,3 +116,76 @@ Elementy jednostki to:
 -  wybór operacji
 - blok logiczny i arytmetyczny
 - sygnały kontrolne
+
+## Rejestry MIPS
+ Nazwa | Numer rejestru | Opis 
+ ------|-------------|------------------------------------------------ 
+ `$0` | 0 | Zawsze równy zero 
+ `$at` | 1 | Assembler tymczasowy 
+ `$v0-$v1` | 2-3 | Zwraca wartość funkcji
+ `$a0-$a3` | 4-7 | Argumenty funkcji
+ `$t0-$t7` | 8-15 | Tymczasowe
+ `$s0-$s7` | 16-23 | Zapisane zmienne 
+ `$t8-$t9` | 24-25 | Tymczasowe
+ `$k0-$k1` | 26-27 | Zarezerwowane dla OS
+ `$gp` | 28 | Wskaźnik globalny 
+ `$sp` | 29 | Wskaźnik stosu
+  `$fp` | 30 | Wskaźnik ramki stosu 
+  `$ra` | 31 | Adres powrotu funkcji
+
+## Organizacja pamięci w MIPS
+- Text - przechowuje program w języku maszynowym
+- Global Data - segment danych globalnych przechowujący zmienne globalne, zmienne mogą być widoczne dla wszystkich procedur w programie
+- Dynamic Data - segment danych dynamicznych zawiera stos i sterte. Dane są dynamiczne przydzielane podczas wykonywania programu.
+- Reserved - zarezerwowane segmenty są używane przez OS i nie moga być używane podczas wykonywania programu
+
+| Mapa pamięci|
+| ----- |
+| Reserved |
+| Dynamic Data|
+| Global Data| 
+| Text |
+| Reserved |
+
+## R-Type (Rejestrowe)
+- rs, rt (5 bit) rejestry źródłowe
+- rd (5 bit) rejestr docelowy
+- op (6 bit) op code (R-type = 0)
+- funct (6 bit) - funkcje z opcode
+- shamt (5 bit) - liczba przesunięcia dla instrukcji z przesunięciem
+
+Przykład: add, sub
+
+## I-Type (Bezpośredni)
+- rs, rt (5 bit) rejestry operandów
+- imm (6 bit) bezpośrednie 16 bitowe w kodzie u2
+- op
+Przykład: addi, lw
+
+## Pseudoinstrukcje
+Są to instrukcje, które nie mają bezpośredniej implementacji sprzętowej. Pełnią rolę udogodnienia. Assembler tłumaczy je na rzeczywiste instrukcje mips
+np. clear, more
+
+## Wyjątki
+Są to nieplanowane wywołania procedury, który przeskakuje pod nowy adres. Wyjątki są spowodowane przez sprzęt lub oprogramowanie
+- Przerwanie systemowe
+- Wywołanie systemowe
+- Dzielenie przez 0
+-  Niezidentyfikowana instrukcja
+- Arytmetyczne przepełnienie
+
+## Rodzaje architektur
+- Risc - duży zestaw rejestrów, rzadkie odwołanie do pamieci i szybka jednostka wykonawcza
+	- Zalety:  duża szybkość ułatwionego rozkodowania rozkazów, ułatwienie zwiększenia częstotliwości zegara
+	- Wady: duża liczba rozków w kodzie, konieczne szybkie przesyłanie rozkazów z pamięci
+
+- Cisc - Czeste odwołanie do pamięci, mały zestaw rejestrów, złożone rozkazy
+	- Zalety: zmniejszona liczba rozkazów w skomplikowanym kodzie
+	- Wady: złożone dekodowanie rozkazów, utrudnione przetwarzanie potokowe
+
+## Hazard
+Krótkotrwałe zakłócenia stany logicznego na wyjściu układu. Powstanie hazardu spowodowane jest opóźnieniami na poszczególnych bramkach w układach logicznych
+Typy:
+- statyczny - zmiana w chwili gdy wejście powino zostać w stanie niezmienionym
+- dynamiczny - kilkukrotna zmiana stanu wyjścia przez zmianę stanu wejścia
+Likwidacji tego najlepiej dokonać przez wprowadzenie dodatkowych implikantów
